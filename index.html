@@ -2,198 +2,141 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CoverEdge45</title>
+<title>CoverEdge45 – Live Cricket</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- HLS -->
+<!-- HLS Player -->
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #071a33;
-  color: #fff;
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#06162e;
+  color:#fff;
 }
 
-/* HEADER */
-header {
-  text-align: center;
-  padding: 15px;
-  background: linear-gradient(90deg,#0a2e5c,#0f4aa1);
-  font-size: 18px;
-  font-weight: bold;
+/* TOP CHANNEL BAR */
+.top-bar{
+  max-width:950px;
+  margin:15px auto;
+  background:linear-gradient(90deg,#0b3c8a,#1158c7);
+  padding:14px;
+  text-align:center;
+  font-weight:bold;
+  border-radius:12px;
+  letter-spacing:1px;
 }
 
 /* PLAYER */
-.player-box {
-  max-width: 900px;
-  margin: 20px auto;
-  position: relative;
+.player-wrap{
+  max-width:950px;
+  margin:0 auto;
+  background:#000;
+  border-radius:14px;
+  overflow:hidden;
 }
-video {
-  width: 100%;
-  border-radius: 12px;
-  background: #000;
-}
-
-/* BLUR LOCK */
-.locked video {
-  filter: blur(8px);
-  pointer-events: none;
+video{
+  width:100%;
+  height:auto;
+  background:#000;
 }
 
-/* STREAM SWITCH */
-.streams {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 12px;
-}
-.streams button {
-  background: #0f3d7a;
-  border: none;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.streams button.active {
-  background: #1ea7ff;
+/* BUTTON SECTIONS */
+.section{
+  max-width:950px;
+  margin:15px auto;
+  background:linear-gradient(180deg,#0b2f63,#0a2450);
+  padding:16px;
+  border-radius:14px;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
 }
 
-/* CTA */
-.cta {
-  max-width: 900px;
-  margin: 15px auto;
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.cta a, .cta button {
-  background: #1ea7ff;
-  color: #fff;
-  padding: 12px 18px;
-  border-radius: 10px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
+.section h3{
+  width:100%;
+  margin:0 0 8px;
+  text-align:center;
+  font-size:15px;
+  opacity:.9;
 }
 
-/* POPUP */
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99;
+.btn{
+  background:#1ea7ff;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
-.popup-box {
-  background: linear-gradient(180deg,#0f3d7a,#0a2550);
-  padding: 25px;
-  border-radius: 14px;
-  text-align: center;
-  max-width: 320px;
+
+.btn.secondary{
+  background:#133d78;
 }
-.popup-box h2 {
-  margin-top: 0;
+
+/* BOTTOM BANNER */
+.banner{
+  max-width:950px;
+  margin:20px auto;
+  background:#000;
+  border-radius:14px;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  justify-content:center;
+  font-size:26px;
+  font-weight:bold;
 }
-.popup-box button, .popup-box a {
-  display: block;
-  width: 100%;
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-.join {
-  background: #1ea7ff;
-  color: #fff;
-}
-.done {
-  background: #2b4f87;
-  color: #fff;
+.banner img{
+  width:42px;
+  height:42px;
 }
 </style>
 </head>
 
 <body>
 
-<header>🔴 IND vs AUS – LIVE</header>
-
-<div class="player-box locked" id="playerBox">
-  <video id="video" controls></video>
+<!-- TOP -->
+<div class="top-bar">
+  MATCHES LINKS
 </div>
 
-<div class="streams">
-  <button onclick="switchStream(0)" class="active">JioHotstar</button>
-  <button onclick="switchStream(1)">Star Sports</button>
-  <button onclick="switchStream(2)">TNT Sports</button>
-  <button onclick="switchStream(3)">Fox Sports</button>
+<!-- PLAYER -->
+<div class="player-wrap">
+  <video id="video" controls autoplay></video>
 </div>
 
-<div class="cta">
-  <a href="https://t.me/CoverEdge45" target="_blank">Join Telegram</a>
-  <button onclick="navigator.clipboard.writeText(location.href)">Copy Link</button>
+<!-- JOIN TG -->
+<div class="section">
+  <h3>⚡ Join Telegram For Live Updates!</h3>
+  <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Join Telegram Now</a>
+  <a class="btn secondary" href="https://t.me/CoverEdge45" target="_blank">View All Channels</a>
 </div>
 
-<!-- POPUP -->
-<div class="popup" id="popup">
-  <div class="popup-box">
-    <h2>Welcome to CoverEdge45 👋</h2>
-    <p>Join our Telegram channel to unlock live match</p>
-    <a class="join" href="https://t.me/CoverEdge45" target="_blank">Join Telegram Now</a>
-    <button class="done" onclick="unlock()">Already Joined</button>
-  </div>
+<!-- SHARE -->
+<div class="section">
+  <h3>❤️ Share & Support</h3>
+  <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Share This Page</a>
+  <a class="btn secondary" href="https://t.me/CoverEdge45" target="_blank">Copy Link</a>
+</div>
+
+<!-- BOTTOM BANNER -->
+<div class="banner">
+  <img src="https://telegram.org/img/t_logo.png" alt="TG">
+  Join @CoverEdge45
 </div>
 
 <script>
-/* 🔁 CHANGE ONLY THESE LINKS BEFORE MATCH */
-const streams = [
-  "https://example.com/jiohotstar.m3u8",
-  "https://example.com/star.m3u8",
-  "https://example.com/tnt.m3u8",
-  "https://example.com/fox.m3u8"
-];
+/* 🔁 CHANGE ONLY THIS LINK BEFORE MATCH */
+const streamURL = "https://example.com/live.m3u8";
 
-let current = 0;
 const video = document.getElementById("video");
-const playerBox = document.getElementById("playerBox");
 
-function loadStream(url) {
-  if (Hls.isSupported()) {
-    const hls = new Hls();
-    hls.loadSource(url);
-    hls.attachMedia(video);
-  } else {
-    video.src = url;
-  }
-}
-
-function switchStream(i) {
-  current = i;
-  document.querySelectorAll(".streams button").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".streams button")[i].classList.add("active");
-  loadStream(streams[i]);
-}
-
-function unlock() {
-  document.getElementById("popup").style.display = "none";
-  playerBox.classList.remove("locked");
-  loadStream(streams[current]);
-}
-
-/* auto popup */
-setTimeout(() => {
-  document.getElementById("popup").style.display = "flex";
-}, 800);
-</script>
-
-</body>
-</html>
+if (Hls.isSupported()) {
+  const h
