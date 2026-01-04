@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Matches Links – Live</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- HLS -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #071a33;
+  color: #fff;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 15px;
+  background: linear-gradient(90deg,#0a2e5c,#0f4aa1);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* PLAYER */
+.player-box {
+  max-width: 900px;
+  margin: 20px auto;
+  position: relative;
+}
+video {
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+}
+
+/* BLUR LOCK */
+.locked video {
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* STREAM SWITCH */
+.streams {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+.streams button {
+  background: #0f3d7a;
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.streams button.active {
+  background: #1ea7ff;
+}
+
+/* CTA */
+.cta {
+  max-width: 900px;
+  margin: 15px auto;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cta a, .cta button {
+  background: #1ea7ff;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+.popup-box {
+  background: linear-gradient(180deg,#0f3d7a,#0a2550);
+  padding: 25px;
+  border-radius: 14px;
+  text-align: center;
+  max-width: 320px;
+}
+.popup-box h2 {
+  margin-top: 0;
+}
+.popup-box button, .popup-box a {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.join {
+  background: #1ea7ff;
+  color: #fff;
+}
+.done {
+  background: #2b4f87;
+  color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔴 IND vs AUS – LIVE</header>
+
+<div class="player-box locked" id="playerBox">
+  <video id="video" controls></video>
+</div>
+
+<div class="streams">
+  <button onclick="switchStream(0)" class="active">JioHotstar</button>
+  <button onclick="switchStream(1)">Star Sports</button>
+  <button onclick="switchStream(2)">TNT Sports</button>
+  <button onclick="switchStream(3)">Fox Sports</button>
+</div>
+
+<div class="cta">
+  <a href="https://t.me/CoverEdge45" target="_blank">Join Telegram</a>
+  <button onclick="navigator.clipboard.writeText(location.href)">Copy Link</button>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <h2>Welcome to Matches Links 👋</h2>
+    <p>Join our Telegram channel to unlock live match</p>
+    <a class="join" href="https://t.me/CoverEdge45" target="_blank">Join Telegram Now</a>
+    <button class="done" onclick="unlock()">Already Joined</button>
+  </div>
+</div>
+
+<script>
+/* 🔁 CHANGE ONLY THESE LINKS BEFORE MATCH */
+const streams = [
+  "https://example.com/jiohotstar.m3u8",
+  "https://example.com/star.m3u8",
+  "https://example.com/tnt.m3u8",
+  "https://example.com/fox.m3u8"
+];
+
+let current = 0;
+const video = document.getElementById("video");
+const playerBox = document.getElementById("playerBox");
+
+function loadStream(url) {
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+  } else {
+    video.src = url;
+  }
+}
+
+function switchStream(i) {
+  current = i;
+  document.querySelectorAll(".streams button").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".streams button")[i].classList.add("active");
+  loadStream(streams[i]);
+}
+
+function unlock() {
+  document.getElementById("popup").style.display = "none";
+  playerBox.classList.remove("locked");
+  loadStream(streams[current]);
+}
+
+/* auto popup */
+setTimeout(() => {
+  document.getElementById("popup").style.display = "flex";
+}, 800);
+</script>
+
+</body>
+</html>
