@@ -16,7 +16,7 @@ body{
   color:#fff;
 }
 
-/* TOP CHANNEL BAR */
+/* TOP BAR */
 .top-bar{
   max-width:950px;
   margin:15px auto;
@@ -38,11 +38,10 @@ body{
 }
 video{
   width:100%;
-  height:auto;
   background:#000;
 }
 
-/* BUTTON SECTIONS */
+/* SECTIONS */
 .section{
   max-width:950px;
   margin:15px auto;
@@ -54,7 +53,6 @@ video{
   justify-content:center;
   flex-wrap:wrap;
 }
-
 .section h3{
   width:100%;
   margin:0 0 8px;
@@ -63,6 +61,7 @@ video{
   opacity:.9;
 }
 
+/* BUTTONS */
 .btn{
   background:#1ea7ff;
   color:#fff;
@@ -70,16 +69,18 @@ video{
   border-radius:10px;
   text-decoration:none;
   font-weight:bold;
-  display:flex;
-  align-items:center;
-  gap:8px;
+  border:none;
+  cursor:pointer;
 }
-
 .btn.secondary{
   background:#133d78;
 }
 
 /* BOTTOM BANNER */
+.banner-link{
+  text-decoration:none;
+  color:inherit;
+}
 .banner{
   max-width:950px;
   margin:20px auto;
@@ -88,8 +89,8 @@ video{
   padding:18px;
   display:flex;
   align-items:center;
-  gap:15px;
   justify-content:center;
+  gap:14px;
   font-size:26px;
   font-weight:bold;
 }
@@ -116,27 +117,58 @@ video{
 <div class="section">
   <h3>⚡ Join Telegram For Live Updates!</h3>
   <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Join Telegram Now</a>
-  <a class="btn secondary" href="https://t.me/CoverEdge45" target="_blank">View All Channels</a>
+  <a class="btn secondary" href="https://t.me/CoverEdgelinks" target="_blank">View All Channels</a>
 </div>
 
 <!-- SHARE -->
 <div class="section">
   <h3>❤️ Share & Support</h3>
-  <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Share This Page</a>
-  <a class="btn secondary" href="https://t.me/CoverEdge45" target="_blank">Copy Link</a>
+  <button class="btn" onclick="sharePage()">Share This Page</button>
+  <button class="btn secondary" onclick="copyLink()">Copy Link</button>
 </div>
 
 <!-- BOTTOM BANNER -->
-<div class="banner">
-  <img src="https://telegram.org/img/t_logo.png" alt="TG">
-  Join @CoverEdge45
-</div>
+<a class="banner-link" href="https://t.me/CoverEdge45" target="_blank">
+  <div class="banner">
+    <img src="https://telegram.org/img/t_logo.png" alt="TG">
+    Join @CoverEdge45
+  </div>
+</a>
 
 <script>
-/* 🔁 CHANGE ONLY THIS LINK BEFORE MATCH */
+/* 🔁 CHANGE ONLY THIS BEFORE EVERY MATCH */
 const streamURL = "https://example.com/live.m3u8";
 
 const video = document.getElementById("video");
 
+/* LOAD STREAM */
 if (Hls.isSupported()) {
-  const h
+  const hls = new Hls();
+  hls.loadSource(streamURL);
+  hls.attachMedia(video);
+} else {
+  video.src = streamURL;
+}
+
+/* COPY LINK */
+function copyLink(){
+  navigator.clipboard.writeText(window.location.href);
+  alert("Page link copied!");
+}
+
+/* NATIVE SHARE */
+function sharePage(){
+  if (navigator.share) {
+    navigator.share({
+      title: "Live Cricket – CoverEdge45",
+      text: "Watch live cricket here 👇",
+      url: window.location.href
+    });
+  } else {
+    alert("Sharing not supported on this device");
+  }
+}
+</script>
+
+</body>
+</html>
