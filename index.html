@@ -5,12 +5,19 @@
 <title>CoverEdge45 – Live Cricket</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- HLS Player -->
+<!-- HLS.js -->
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
+/* BODY */
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#06162e;
+  color:#fff;
+}
 
- /* POPUP */
+/* POPUP */
 .popup{
   position:fixed;
   inset:0;
@@ -27,9 +34,7 @@
   text-align:center;
   max-width:320px;
 }
-.popup-box h2{
-  margin-top:0;
-}
+.popup-box h2{margin-top:0}
 .popup-box a,
 .popup-box button{
   display:block;
@@ -42,21 +47,8 @@
   cursor:pointer;
   text-decoration:none;
 }
-.popup-join{
-  background:#1ea7ff;
-  color:#fff;
-}
-.popup-done{
-  background:#133d78;
-  color:#fff;
-}
- 
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#06162e;
-  color:#fff;
-}
+.popup-join{background:#1ea7ff;color:#fff}
+.popup-done{background:#133d78;color:#fff}
 
 /* TOP BAR */
 .top-bar{
@@ -114,15 +106,10 @@ video{
   border:none;
   cursor:pointer;
 }
-.btn.secondary{
-  background:#133d78;
-}
+.btn.secondary{background:#133d78}
 
 /* BOTTOM BANNER */
-.banner-link{
-  text-decoration:none;
-  color:inherit;
-}
+.banner-link{text-decoration:none;color:inherit}
 .banner{
   max-width:950px;
   margin:20px auto;
@@ -143,7 +130,9 @@ video{
 </style>
 </head>
 
-  <!-- POPUP -->
+<body>
+
+<!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <h2>Welcome 👋</h2>
@@ -155,16 +144,12 @@ video{
   </div>
 </div>
 
-<body>
-
 <!-- TOP -->
-<div class="top-bar">
-  CoverEdge45
-</div>
+<div class="top-bar">CoverEdge45</div>
 
 <!-- PLAYER -->
 <div class="player-wrap">
-  <video id="video" controls autoplay></video>
+  <video id="video" controls autoplay muted playsinline></video>
 </div>
 
 <!-- JOIN TG -->
@@ -190,17 +175,21 @@ video{
 </a>
 
 <script>
-/* 🔁 CHANGE ONLY THIS BEFORE EVERY MATCH */
-const streamURL = "https://allrounderlive.pages.dev/player?url=https://dillzy.cricketstream745.workers.dev/live.m3u8";
+/* 🔁 CHANGE THIS BEFORE EVERY MATCH (DIRECT .m3u8 ONLY) */
+const streamURL = "https://dillzy.cricketstream745.workers.dev/live.m3u8";
 
 const video = document.getElementById("video");
 
-/* LOAD STREAM */
 if (Hls.isSupported()) {
-  const hls = new Hls();
+  const hls = new Hls({
+    lowLatencyMode: true,
+    maxBufferLength: 30
+  });
   hls.loadSource(streamURL);
   hls.attachMedia(video);
-} else {
+
+  window.addEventListener("beforeunload", () => hls.destroy());
+} else if (video.canPlayType("application/vnd.apple.mpegurl")) {
   video.src = streamURL;
 }
 
@@ -210,7 +199,7 @@ function copyLink(){
   alert("Page link copied!");
 }
 
-/* NATIVE SHARE */
+/* SHARE */
 function sharePage(){
   if (navigator.share) {
     navigator.share({
@@ -219,23 +208,19 @@ function sharePage(){
       url: window.location.href
     });
   } else {
-    alert("Sharing not supported on this device");
+    alert("Sharing not supported");
   }
 }
-</script>
 
- <script>
 /* POPUP CONTROL */
 function closePopup(){
   document.getElementById("popup").style.display="none";
   sessionStorage.setItem("popupShown","yes");
 }
-
 if(sessionStorage.getItem("popupShown")==="yes"){
   document.getElementById("popup").style.display="none";
 }
 </script>
 
-  
 </body>
 </html>
