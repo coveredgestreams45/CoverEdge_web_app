@@ -5,23 +5,21 @@
 <title>CoverEdge45 – Live Cricket</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- HLS.js -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
 <style>
-/* BODY */
+/* BASIC PROTECTION */
 body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#06162e;
-  color:#fff;
+  -webkit-user-select:none;
+  user-select:none;
+}
+iframe{
+  border:none;
 }
 
 /* POPUP */
 .popup{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.75);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -33,8 +31,8 @@ body{
   border-radius:14px;
   text-align:center;
   max-width:320px;
+  color:#fff;
 }
-.popup-box h2{margin-top:0}
 .popup-box a,
 .popup-box button{
   display:block;
@@ -47,8 +45,21 @@ body{
   cursor:pointer;
   text-decoration:none;
 }
-.popup-join{background:#1ea7ff;color:#fff}
-.popup-done{background:#133d78;color:#fff}
+.popup-join{
+  background:#1ea7ff;
+  color:#fff;
+}
+.popup-done{
+  background:#133d78;
+  color:#fff;
+}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#06162e;
+  color:#fff;
+}
 
 /* TOP BAR */
 .top-bar{
@@ -59,7 +70,6 @@ body{
   text-align:center;
   font-weight:bold;
   border-radius:12px;
-  letter-spacing:1px;
 }
 
 /* PLAYER */
@@ -70,9 +80,9 @@ body{
   border-radius:14px;
   overflow:hidden;
 }
-video{
+.player-wrap iframe{
   width:100%;
-  background:#000;
+  height:55vh;
 }
 
 /* SECTIONS */
@@ -89,10 +99,8 @@ video{
 }
 .section h3{
   width:100%;
-  margin:0 0 8px;
   text-align:center;
-  font-size:15px;
-  opacity:.9;
+  margin:0 0 8px;
 }
 
 /* BUTTONS */
@@ -106,10 +114,11 @@ video{
   border:none;
   cursor:pointer;
 }
-.btn.secondary{background:#133d78}
+.btn.secondary{
+  background:#133d78;
+}
 
-/* BOTTOM BANNER */
-.banner-link{text-decoration:none;color:inherit}
+/* BOTTOM */
 .banner{
   max-width:950px;
   margin:20px auto;
@@ -120,23 +129,20 @@ video{
   align-items:center;
   justify-content:center;
   gap:14px;
-  font-size:26px;
+  font-size:24px;
   font-weight:bold;
 }
 .banner img{
-  width:42px;
-  height:42px;
+  width:40px;
 }
 </style>
 </head>
-
-<body>
 
 <!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <h2>Welcome 👋</h2>
-    <p>Join our Telegram channel to get live match updates</p>
+    <p>Join our Telegram for live match updates</p>
     <a class="popup-join" href="https://t.me/CoverEdge45" target="_blank">
       Join @CoverEdge45
     </a>
@@ -144,80 +150,63 @@ video{
   </div>
 </div>
 
+<body oncontextmenu="return false">
+
 <!-- TOP -->
-<div class="top-bar">CoverEdge45</div>
+<div class="top-bar">CoverEdge45 • Star Sports</div>
 
 <!-- PLAYER -->
 <div class="player-wrap">
-  <video id="video" controls autoplay muted playsinline></video>
+  <iframe
+    src="https://allrounderlive.pages.dev/player?url=https://dillzy.cricketstream745.workers.dev/live.m3u8"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
 </div>
 
-<!-- JOIN TG -->
+<!-- JOIN -->
 <div class="section">
-  <h3>⚡ Join Telegram For Live Updates!</h3>
-  <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Join Telegram Now</a>
-  <a class="btn secondary" href="https://t.me/CoverEdgelinks" target="_blank">View All Channels</a>
+  <h3>⚡ Join Telegram For Live Updates</h3>
+  <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Join Telegram</a>
+  <a class="btn secondary" href="https://t.me/CoverEdgelinks" target="_blank">All Channels</a>
 </div>
 
 <!-- SHARE -->
 <div class="section">
   <h3>❤️ Share & Support</h3>
-  <button class="btn" onclick="sharePage()">Share This Page</button>
+  <button class="btn" onclick="sharePage()">Share</button>
   <button class="btn secondary" onclick="copyLink()">Copy Link</button>
 </div>
 
-<!-- BOTTOM BANNER -->
-<a class="banner-link" href="https://t.me/CoverEdge45" target="_blank">
+<!-- BOTTOM -->
+<a href="https://t.me/CoverEdge45" target="_blank" style="text-decoration:none;color:inherit">
   <div class="banner">
-    <img src="https://telegram.org/img/t_logo.png" alt="TG">
+    <img src="https://telegram.org/img/t_logo.png">
     Join @CoverEdge45
   </div>
 </a>
 
 <script>
-/* 🔁 CHANGE THIS BEFORE EVERY MATCH (DIRECT .m3u8 ONLY) */
-const streamURL = "https://allrounderlive.pages.dev/player?url=https://dillzy.cricketstream745.workers.dev/live.m3u8";
-
-const video = document.getElementById("video");
-
-if (Hls.isSupported()) {
-  const hls = new Hls({
-    lowLatencyMode: true,
-    maxBufferLength: 30
-  });
-  hls.loadSource(streamURL);
-  hls.attachMedia(video);
-
-  window.addEventListener("beforeunload", () => hls.destroy());
-} else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-  video.src = streamURL;
-}
-
-/* COPY LINK */
 function copyLink(){
-  navigator.clipboard.writeText(window.location.href);
-  alert("Page link copied!");
+  navigator.clipboard.writeText(location.href);
+  alert("Link copied!");
 }
 
-/* SHARE */
 function sharePage(){
-  if (navigator.share) {
+  if(navigator.share){
     navigator.share({
-      title: "Live Cricket – CoverEdge45",
-      text: "Watch live cricket here 👇",
-      url: window.location.href
+      title:"Live Cricket – CoverEdge45",
+      url:location.href
     });
-  } else {
-    alert("Sharing not supported");
   }
 }
 
-/* POPUP CONTROL */
+/* POPUP */
 function closePopup(){
   document.getElementById("popup").style.display="none";
-  sessionStorage.setItem("popupShown","yes");
+  sessionStorage.setItem("joined","yes");
 }
-if(sessionStorage.getItem("popupShown")==="yes"){
+if(sessionStorage.getItem("joined")==="yes"){
   document.getElementById("popup").style.display="none";
 }
 </script>
