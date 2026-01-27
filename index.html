@@ -1,75 +1,46 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CoverEdge45 – Live Cricket</title>
+<title>CricxCrate – Live Cricket</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* BASIC PROTECTION */
-body{
-  -webkit-user-select:none;
-  user-select:none;
-}
-iframe{
-  border:none;
-}
+*{box-sizing:border-box}
 
-/* POPUP */
-.popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.75);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-.popup-box{
-  background:linear-gradient(180deg,#0b3c8a,#06162e);
-  padding:22px;
-  border-radius:14px;
-  text-align:center;
-  max-width:320px;
-  color:#fff;
-}
-.popup-box a,
-.popup-box button{
-  display:block;
-  width:100%;
-  margin-top:12px;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  font-weight:bold;
-  cursor:pointer;
-  text-decoration:none;
-}
-.popup-join{
-  background:#1ea7ff;
-  color:#fff;
-}
-.popup-done{
-  background:#133d78;
-  color:#fff;
-}
-
+/* BASE LIGHT THEME */
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#06162e;
-  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  background:linear-gradient(180deg,#f8fafc,#eef2f7);
+  color:#111827;
+  user-select:none;
+}
+iframe{border:none}
+
+/* BLUR WHEN POPUP (but allow video interactions) */
+body.popup-active .main-content > :not(.player-wrap){
+  filter:blur(6px);
+  pointer-events:none;
+}
+
+/* GLASS CARDS */
+.glass{
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.45);
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
 }
 
 /* TOP BAR */
 .top-bar{
   max-width:950px;
-  margin:15px auto;
-  background:linear-gradient(90deg,#0b3c8a,#1158c7);
+  margin:14px auto;
   padding:14px;
   text-align:center;
-  font-weight:bold;
-  border-radius:12px;
+  font-weight:600;
+  border-radius:18px;
 }
 
 /* PLAYER */
@@ -77,21 +48,28 @@ body{
   max-width:950px;
   margin:0 auto;
   background:#000;
-  border-radius:14px;
+  border-radius:20px;
   overflow:hidden;
+  box-shadow:0 14px 30px rgba(0,0,0,.15);
 }
 .player-wrap iframe{
   width:100%;
   height:55vh;
 }
 
+/* MOBILE VIDEO HEIGHT */
+@media(max-width:768px){
+  .player-wrap iframe{
+    height:42vh;
+  }
+}
+
 /* SECTIONS */
 .section{
   max-width:950px;
-  margin:15px auto;
-  background:linear-gradient(180deg,#0b2f63,#0a2450);
-  padding:16px;
-  border-radius:14px;
+  margin:14px auto;
+  padding:18px;
+  border-radius:20px;
   display:flex;
   gap:14px;
   justify-content:center;
@@ -100,93 +78,153 @@ body{
 .section h3{
   width:100%;
   text-align:center;
-  margin:0 0 8px;
+  margin:0 0 6px;
+  font-size:16px;
+  font-weight:600;
 }
 
 /* BUTTONS */
 .btn{
-  background:#1ea7ff;
-  color:#fff;
-  padding:12px 18px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:bold;
-  border:none;
+  background:rgba(255,255,255,.9);
+  color:#FF6B6B;
+  padding:12px 22px;
+  border-radius:16px;
+  font-weight:600;
+  border:1px solid rgba(0,0,0,.08);
   cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 6px 14px rgba(0,0,0,.08);
 }
-.btn.secondary{
-  background:#133d78;
+.btn.primary{
+  background:#FF6B6B;
+  color:#fff;
+  border:none;
 }
 
-/* BOTTOM */
+/* TAP FEEDBACK */
+.btn:active,
+.popup-box a:active,
+.popup-box button:active{
+  transform:scale(.96);
+}
+
+/* BANNER */
 .banner{
   max-width:950px;
   margin:20px auto;
-  background:#000;
-  border-radius:14px;
   padding:18px;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:14px;
-  font-size:24px;
-  font-weight:bold;
+  gap:12px;
+  font-size:20px;
+  font-weight:600;
+  border-radius:22px;
 }
-.banner img{
-  width:40px;
+.banner img{width:36px}
+
+/* POPUP */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(6px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.popup-box{
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(18px);
+  padding:28px 22px;
+  border-radius:26px;
+  text-align:center;
+  max-width:340px;
+  width:90%;
+  border:1px solid rgba(255,255,255,.5);
+  box-shadow:0 25px 50px rgba(0,0,0,.2);
+  animation:pop .3s ease;
+}
+@keyframes pop{
+  from{transform:scale(.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.popup-box h2{margin:0 0 8px}
+.popup-box p{margin:0 0 18px;color:#6b7280}
+.popup-box a,
+.popup-box button{
+  display:block;
+  width:100%;
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  text-decoration:none;
+}
+.popup-join{
+  background:#FF6B6B;
+  color:#fff;
+}
+.popup-done{
+  background:rgba(255,255,255,.9);
+  color:#FF6B6B;
 }
 </style>
 </head>
 
+<body oncontextmenu="return false">
+
 <!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
-    <h2>Welcome 👋</h2>
-    <p>Join our Telegram for live match updates</p>
-    <a class="popup-join" href="https://t.me/CoverEdge45" target="_blank">
-      Join @CoverEdge45
-    </a>
+    <h2>Welcome 🤩</h2>
+    <p>Join Telegram for live match updates</p>
+    <a class="popup-join" href="https://t.me/CricxCrate" target="_blank">Join @CricxCrate</a>
     <button class="popup-done" onclick="closePopup()">Already Joined</button>
   </div>
 </div>
 
-<body oncontextmenu="return false">
+<!-- MAIN CONTENT -->
+<div class="main-content">
 
-<!-- TOP -->
-<div class="top-bar">CoverEdge45 • Willlow Sports</div>
+  <div class="top-bar glass">CricxCrate • Willow Sports</div>
 
-<!-- PLAYER -->
-<div class="player-wrap">
-  <iframe
-    src="https://cricketstan.github.io/Willow-Sports/"
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
-</div>
-
-<!-- JOIN -->
-<div class="section">
-  <h3>⚡ Join Telegram For Live Updates</h3>
-  <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Join Telegram</a>
-  <a class="btn secondary" href="https://t.me/CoverEdgelinks" target="_blank">All Channels</a>
-</div>
-
-<!-- SHARE -->
-<div class="section">
-  <h3>❤️ Share & Support</h3>
-  <button class="btn" onclick="sharePage()">Share</button>
-  <button class="btn secondary" onclick="copyLink()">Copy Link</button>
-</div>
-
-<!-- BOTTOM -->
-<a href="https://t.me/CoverEdge45" target="_blank" style="text-decoration:none;color:inherit">
-  <div class="banner">
-    <img src="https://telegram.org/img/t_logo.png">
-    Join @CoverEdge45
+  <div class="player-wrap">
+    <iframe 
+      src="https://cricketstan.github.io/Willow-Sports/" 
+      allow="autoplay; encrypted-media" 
+      allowfullscreen>
+    </iframe>
   </div>
-</a>
+
+  <div class="section glass">
+    <h3>⚡ Join Telegram For Live Updates</h3>
+    <a class="btn primary" href="https://t.me/CricxCrate" target="_blank">Join Telegram</a>
+    <a class="btn" href="https://t.me/CricxCratelinks" target="_blank">All Channels</a>
+  </div>
+
+  <div class="section glass">
+    <h3>❤️ Share & Support</h3>
+    <button class="btn primary" onclick="sharePage()">Share</button>
+    <button class="btn" onclick="copyLink()">Copy Link</button>
+  </div>
+
+  <a href="https://t.me/CricxCrate" target="_blank" style="text-decoration:none;color:inherit">
+    <div class="banner glass">
+      <img src="https://telegram.org/img/t_logo.png">
+      Join @CricxCrate
+    </div>
+  </a>
+
+</div>
 
 <script>
+const popup = document.getElementById("popup");
+
+/* SHARE & COPY */
 function copyLink(){
   navigator.clipboard.writeText(location.href);
   alert("Link copied!");
@@ -194,20 +232,27 @@ function copyLink(){
 
 function sharePage(){
   if(navigator.share){
-    navigator.share({
-      title:"Live Cricket – CoverEdge45",
-      url:location.href
-    });
+    navigator.share({title:"Live Cricket – CricxCrate", url:location.href});
   }
 }
 
 /* POPUP */
 function closePopup(){
-  document.getElementById("popup").style.display="none";
-  sessionStorage.setItem("joined","yes");
+  // Smooth fade out
+  popup.style.transition = "opacity 0.3s";
+  popup.style.opacity = "0";
+  setTimeout(() => {
+    popup.style.display = "none";
+    document.body.classList.remove("popup-active");
+    sessionStorage.setItem("joined","yes");
+  }, 300);
 }
-if(sessionStorage.getItem("joined")==="yes"){
-  document.getElementById("popup").style.display="none";
+
+/* Show or hide popup based on session storage */
+if(sessionStorage.getItem("joined") !== "yes"){
+  document.body.classList.add("popup-active");
+}else{
+  popup.style.display = "none";
 }
 </script>
 
